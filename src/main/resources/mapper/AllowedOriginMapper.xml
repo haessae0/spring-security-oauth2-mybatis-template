@@ -5,7 +5,7 @@
 <mapper namespace="com.haessae0.boilerplate.mapper.AllowedOriginMapper">
 
     <!-- 활성화된 모든 Origin 조회 -->
-    <select id="findAllOrigins" resultMap="com.haessae0.boilerplate.domain.AllowedOrigin">
+    <select id="findAllOrigins" resultType="com.haessae0.boilerplate.domain.AllowedOrigin">
         SELECT id,
                origin,
                description,
@@ -18,7 +18,7 @@
     </select>
 
     <!-- 특정 Origin이 허용되었는지 확인 -->
-    <select id="findByOrigin" resultMap="AllowedOriginResultMap">
+    <select id="findByOrigin" resultType="com.haessae0.boilerplate.domain.AllowedOrigin">
         SELECT id,
                origin,
                description,

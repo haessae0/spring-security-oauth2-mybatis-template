@@ -5,7 +5,7 @@
 <mapper namespace="com.haessae0.boilerplate.mapper.UserMapper">
 
     <!-- 이메일로 사용자 조회 -->
-    <select id="findByEmail" resultMap="com.haessae0.boilerplate.domain.User">
+    <select id="findByEmail" resultType="com.haessae0.boilerplate.domain.User">
         SELECT id,
                email,
                name,
