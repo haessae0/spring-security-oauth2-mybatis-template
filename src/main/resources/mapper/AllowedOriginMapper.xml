@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.haessae0.boilerplate.mapper.AllowedOriginMapper">
+
+    <!-- 활성화된 모든 Origin 조회 -->
+    <select id="findAllOrigins" resultMap="com.haessae0.boilerplate.domain.AllowedOrigin">
+        SELECT id,
+               origin,
+               description,
+               is_active,
+               created_at,
+               updated_at
+        FROM allowed_origins
+        WHERE is_active = true
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- 특정 Origin이 허용되었는지 확인 -->
+    <select id="findByOrigin" resultMap="AllowedOriginResultMap">
+        SELECT id,
+               origin,
+               description,
+               is_active,
+               created_at,
+               updated_at
+        FROM allowed_origins
+        WHERE origin = #{origin}
+          AND is_active = true
+    </select>
+
+    <!-- 새로운 Origin 추가 -->
+    <insert id="insertOrigin" parameterType="com.haessae0.boilerplate.domain.AllowedOrigin"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO allowed_origins (origin, description, is_active, created_at, updated_at)
+        VALUES (#{origin},
+                #{description},
+                #{isActive},
+                CURRENT_TIMESTAMP,
+                CURRENT_TIMESTAMP)
+    </insert>
+
+    <!-- Origin 정보 업데이트 -->
+    <update id="updateOrigin" parameterType="com.haessae0.boilerplate.domain.AllowedOrigin">
+        UPDATE allowed_origins
+        SET origin      = #{origin},
+            description = #{description},
+            is_active   = #{isActive},
+            updated_at  = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+    <!-- id에 해당하는 Origin 삭제 -->
+    <delete id="deleteOrigin">
+        DELETE
+        FROM allowed_origins
+        WHERE id = #{id}
+    </delete>
+
+</mapper>

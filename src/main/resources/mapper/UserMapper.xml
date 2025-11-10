@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.haessae0.boilerplate.mapper.UserMapper">
+
+    <!-- 이메일로 사용자 조회 -->
+    <select id="findByEmail" resultMap="com.haessae0.boilerplate.domain.User">
+        SELECT id,
+               email,
+               name,
+               profile_image_url,
+               provider,
+               provider_id,
+               created_at,
+               updated_at
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+    <!-- 새로운 사용자 생성 -->
+    <insert id="insertUser" parameterType="com.haessae0.boilerplate.domain.User"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (email, name, profile_image_url, provider, provider_id, created_at, updated_at)
+        VALUES (#{email},
+                #{name},
+                #{profileImageUrl},
+                #{provider},
+                #{providerId},
+                CURRENT_TIMESTAMP,
+                CURRENT_TIMESTAMP)
+    </insert>
+
+    <!-- 사용자 정보 업데이트 -->
+    <update id="updateUser" parameterType="com.haessae0.boilerplate.domain.User">
+        UPDATE users
+        SET name              = #{name},
+            profile_image_url = #{profileImageUrl},
+            updated_at        = CURRENT_TIMESTAMP
+        WHERE id = #{id}
+    </update>
+
+</mapper>
