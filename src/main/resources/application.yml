@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: boilerplate-claude
+  #################### DB SETTINGS ####################
+  datasource:
+    url: jdbc:postgresql://YOUR_DB_IP_DOMAIN:PORT/SCHEMA
+    username: YOUR_DB_USERNAME
+    password: YOUR_DB_PASSWORD
+    driver-class-name: org.postgresql.Driver
+  hikari:
+    maximum-pool-size: 5
+  #################### GOOGLE SETTINGS ####################
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_GOOGLE_CLIENT_ID_HERE
+            client-secret: YOUR_GOOGLE_CLIENT_SECRET_HERE
+            scope:
+              - email
+              - profile
+#################### Mybatis SETTINGS ####################
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
