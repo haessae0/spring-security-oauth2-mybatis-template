@@ -25,10 +25,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final DatabaseCorsConfigurationSource databaseCorsConfigurationSource;
 
     // Lombok 사용 시 - @RequiredArgsConstructor 대체
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, DatabaseCorsConfigurationSource databaseCorsConfigurationSource) {
         this.customOAuth2UserService = customOAuth2UserService;
+        this.databaseCorsConfigurationSource = databaseCorsConfigurationSource;
     }
 
     @Bean
@@ -36,6 +38,9 @@ public class SecurityConfig {
         http
                 // CSRF 비활성화
                 .csrf(csrf -> csrf.disable())
+
+                // DB 기반 동적 CORS
+                .cors(cors -> cors.configurationSource(databaseCorsConfigurationSource))
 
                 // 세션 관리 설정 - STATELESS로 설정하면 세션 사용 안함
                 // 추후 JWT 적용 시 변경 예정
@@ -47,7 +52,7 @@ public class SecurityConfig {
                 // 요청 권한 설정
                 .authorizeHttpRequests(auth -> auth
                         // 공개 엔드포인트 - OAuth2를 위해 인증 관련 허용
-                        .requestMatchers("/", "/api/auth/**", "/oauth2/**", "/login/**").permitAll()
+                        .requestMatchers("/", "/api/auth/**", "/api/public/**", "/oauth2/**", "/login/**").permitAll()
                         // 나머지는 인증 필요
                         .anyRequest().authenticated()
                 )
